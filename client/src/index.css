@@ -2,92 +2,97 @@
 
 @layer base {
   :root {
-    /* Travel-focused warm palette */
-    --background: 0 0% 97.3%; /* #F7F4ED - Cream */
-    --foreground: 0 0% 9.4%; /* #17211D - Charcoal */
-
-    --card: 0 0% 100%; /* #FFFFFF - White */
-    --card-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
-
-    --popover: 0 0% 100%; /* #FFFFFF - White */
-    --popover-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
-
-    /* Primary: Forest Green */
-    --primary: 165 31% 18%; /* #16332B */
-    --primary-foreground: 0 0% 100%; /* #FFFFFF */
-
-    /* Accent: Terracotta */
-    --accent: 11 74% 58%; /* #E56B3F */
-    --accent-foreground: 0 0% 100%; /* #FFFFFF */
-
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 188 94% 43%;
+    --primary-foreground: 222 47% 11%;
+    --accent: 303 100% 74%;
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --muted: 0 0% 41%; /* #68736D - Muted Gray */
-    --muted-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
-
-    --input: 0 0% 86%; /* #DDD8CD - Border */
-    --border: 0 0% 86%; /* #DDD8CD - Border */
-    --ring: 165 31% 18%; /* Forest Green */
-
+    --destructive-foreground: 210 40% 98%;
+    --muted: 215 20% 65%;
+    --muted-foreground: 215 20% 80%;
+    --input: 217 33% 20%;
+    --border: 217 33% 20%;
+    --ring: 188 94% 43%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 9.4%; /* #17211D - Charcoal */
-    --foreground: 0 0% 97.3%; /* #F7F4ED - Cream */
-
-    --card: 0 0% 12%; /* Slightly lighter charcoal */
-    --card-foreground: 0 0% 97.3%; /* #F7F4ED - Cream */
-
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 97.3%;
-
-    --primary: 165 31% 35%; /* Lighter forest green for dark mode */
-    --primary-foreground: 0 0% 97.3%;
-
-    --accent: 11 74% 68%; /* Lighter terracotta for dark mode */
-    --accent-foreground: 0 0% 9.4%;
-
-    --muted: 0 0% 60%;
-    --muted-foreground: 0 0% 97.3%;
-
-    --input: 0 0% 20%;
-    --border: 0 0% 20%;
-    --ring: 165 31% 35%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 188 94% 43%;
+    --primary-foreground: 222 47% 11%;
+    --accent: 303 100% 74%;
+    --accent-foreground: 222 47% 11%;
+    --muted: 215 20% 65%;
+    --muted-foreground: 215 20% 80%;
+    --input: 217 33% 20%;
+    --border: 217 33% 20%;
+    --ring: 188 94% 43%;
   }
 }
 
 @layer base {
   html {
-    color-scheme: light;
-  }
-
-  html.dark {
     color-scheme: dark;
   }
 
   body {
-    background-color: hsl(var(--background));
+    min-height: 100vh;
+    background: linear-gradient(135deg, #020617 0%, #111827 45%, #1f2937 100%);
     color: hsl(var(--foreground));
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow-x: hidden;
   }
 
-  /* Custom container with responsive padding */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    inset: auto;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(80px);
+    opacity: 0.45;
+  }
+
+  body::before {
+    top: -5rem;
+    left: -3rem;
+    width: 18rem;
+    height: 18rem;
+    background: rgba(34, 211, 238, 0.3);
+  }
+
+  body::after {
+    right: -4rem;
+    bottom: -3rem;
+    width: 20rem;
+    height: 20rem;
+    background: rgba(244, 114, 182, 0.25);
+  }
+
   .container {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  /* Flex defaults for better layout behavior */
   .flex {
     @apply min-h-0 min-w-0;
   }
 
-  /* Smooth transitions */
   * {
     @apply transition-colors duration-200;
   }
 
-  /* Focus ring styles */
   button:focus-visible,
   a:focus-visible,
   input:focus-visible,
@@ -97,7 +102,6 @@
     outline-offset: 2px;
   }
 
-  /* Scrollbar styling */
   ::-webkit-scrollbar {
     @apply w-2 h-2;
   }
@@ -117,36 +121,19 @@
 }
 
 @layer components {
-  /* Smooth animations */
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .animate-fade-in {
@@ -161,7 +148,6 @@
     animation: slideDown 0.4s ease-out;
   }
 
-  /* Gradient text */
   .gradient-text {
     background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
     -webkit-background-clip: text;
@@ -169,13 +155,11 @@
     background-clip: text;
   }
 
-  /* Smooth button press effect */
   button {
     @apply active:scale-95;
   }
 }
 
-/* Prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     @apply !transition-none !animate-none;

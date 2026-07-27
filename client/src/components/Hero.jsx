@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Compass, Sparkles } from 'lucide-react';
+import { Compass, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation } from 'wouter';
 
@@ -17,12 +17,7 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.2),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(244,114,182,0.2),_transparent_28%)]" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200">
             <Sparkles className="h-4 w-4" />
             Curated travel intelligence
@@ -54,21 +49,9 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          className="grid gap-3 sm:grid-cols-2"
-        >
+        <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }} className="grid gap-3 sm:grid-cols-2">
           {galleryImages.map((image, index) => (
-            <motion.div
-              key={image}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.12 }}
-              whileHover={{ y: -6, rotate: index % 2 === 0 ? -1 : 1, scale: 1.01 }}
-              className={`${index === 0 ? 'sm:col-span-2' : ''}`}
-            >
+            <motion.div key={image} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + index * 0.12 }} whileHover={{ y: -6, rotate: index % 2 === 0 ? -1 : 1, scale: 1.01 }} className={`${index === 0 ? 'sm:col-span-2' : ''}`}>
               <img src={image} alt="Travel inspiration" className="h-48 w-full rounded-[1.5rem] object-cover shadow-2xl shadow-slate-950/30 sm:h-56" />
             </motion.div>
           ))}
