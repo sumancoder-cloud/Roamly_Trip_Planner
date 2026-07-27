@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Travel-focused warm palette */
+    --background: 0 0% 97.3%; /* #F7F4ED - Cream */
+    --foreground: 0 0% 9.4%; /* #17211D - Charcoal */
+
+    --card: 0 0% 100%; /* #FFFFFF - White */
+    --card-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
+
+    --popover: 0 0% 100%; /* #FFFFFF - White */
+    --popover-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
+
+    /* Primary: Forest Green */
+    --primary: 165 31% 18%; /* #16332B */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
+
+    /* Accent: Terracotta */
+    --accent: 11 74% 58%; /* #E56B3F */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF */
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --muted: 0 0% 41%; /* #68736D - Muted Gray */
+    --muted-foreground: 0 0% 9.4%; /* #17211D - Charcoal */
+
+    --input: 0 0% 86%; /* #DDD8CD - Border */
+    --border: 0 0% 86%; /* #DDD8CD - Border */
+    --ring: 165 31% 18%; /* Forest Green */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 9.4%; /* #17211D - Charcoal */
+    --foreground: 0 0% 97.3%; /* #F7F4ED - Cream */
+
+    --card: 0 0% 12%; /* Slightly lighter charcoal */
+    --card-foreground: 0 0% 97.3%; /* #F7F4ED - Cream */
+
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 97.3%;
+
+    --primary: 165 31% 35%; /* Lighter forest green for dark mode */
+    --primary-foreground: 0 0% 97.3%;
+
+    --accent: 11 74% 68%; /* Lighter terracotta for dark mode */
+    --accent-foreground: 0 0% 9.4%;
+
+    --muted: 0 0% 60%;
+    --muted-foreground: 0 0% 97.3%;
+
+    --input: 0 0% 20%;
+    --border: 0 0% 20%;
+    --ring: 165 31% 35%;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  /* Custom container with responsive padding */
+  .container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Flex defaults for better layout behavior */
+  .flex {
+    @apply min-h-0 min-w-0;
+  }
+
+  /* Smooth transitions */
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  /* Focus ring styles */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted));
+    border-radius: 0.25rem;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground));
+  }
+}
+
+@layer components {
+  /* Smooth animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Smooth button press effect */
+  button {
+    @apply active:scale-95;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    @apply !transition-none !animate-none;
+  }
+}
