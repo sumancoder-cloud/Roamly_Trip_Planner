@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { trpc } from '@/lib/trpc';
+
+const SESSION_STORAGE_KEY = 'roamly-trip-session';
 
 const fallbackTrip = {
   tripTitle: 'Aurora Coast Escape',
@@ -73,7 +74,6 @@ export function useTripGenerator() {
   const [error, setError] = useState(null);
 
   const requestIdRef = useRef(0);
-  const generateMutation = trpc.trip.generate.useMutation();
 
   const generateTrip = useCallback(async (prompt) => {
     const currentRequestId = ++requestIdRef.current;
@@ -83,7 +83,13 @@ export function useTripGenerator() {
     setTrip(null);
 
     try {
-      const result = await generateMutation.mutateAsync({ prompt });
+      const response = await fetch('/api/generate-trip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const result = await response.json();
 
       if (currentRequestId !== requestIdRef.current) {
         return;
@@ -96,31 +102,25 @@ export function useTripGenerator() {
       }
 
       const message = result?.error?.message || 'We could not build a reliable itinerary.';
-      const shouldUseFallback = ['SERVER_ERROR', 'API_ERROR', 'NETWORK_ERROR', 'INVALID_JSON', 'INVALID_SCHEMA'].includes(result?.error?.code);
-
-      if (shouldUseFallback) {
-        setTrip(fallbackTrip);
-        setStatus('success');
-        setError(`${message} A polished demo itinerary is loaded so you can still explore the experience.`);
-        return;
-      }
-
-      setError(message);
+      setTrip(null);
       setStatus('error');
+      setError(message);
     } catch (err) {
       if (currentRequestId !== requestIdRef.current) {
         return;
       }
 
-      setTrip(fallbackTrip);
-      setStatus('success');
-      setError(
-        err instanceof Error
-          ? `${err.message} A polished demo itinerary is loaded so you can still explore the experience.`
-          : 'The AI service is unavailable right now. A polished demo itinerary is loaded instead.'
-      );
+      setTrip(null);
+      setStatus('error');
+      setError(err instanceof Error ? err.message : 'The AI service is unavailable right now.');
     }
-  }, [generateMutation]);
+  }, []);
+
+  const restoreTrip = useCallback((savedTrip) => {
+    setTrip(savedTrip);
+    setStatus('success');
+    setError(null);
+  }, []);
 
   const cancelGeneration = useCallback(() => {
     requestIdRef.current += 1;
@@ -133,6 +133,9 @@ export function useTripGenerator() {
     setTrip(null);
     setStatus('idle');
     setError(null);
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(SESSION_STORAGE_KEY);
+    }
   }, []);
 
   return {
@@ -140,6 +143,7 @@ export function useTripGenerator() {
     status,
     error,
     generateTrip,
+    restoreTrip,
     cancelGeneration,
     reset,
   };

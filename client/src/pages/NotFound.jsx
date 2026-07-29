@@ -1,5 +1,6 @@
+import { FiArrowLeft } from "react-icons/fi";
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 
@@ -13,7 +14,7 @@ export default function NotFound() {
         <h1 className="mt-4 text-2xl font-semibold">This page wandered off</h1>
         <p className="mt-3 text-sm text-slate-400">The route you expected isn’t available, but the planner is still waiting for you.</p>
         <Button onClick={() => setLocation('/')} className="mt-6 bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-slate-950 font-semibold">
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <FiArrowLeft className="mr-2 h-4 w-4" />
           Back home
         </Button>
       </motion.div>
